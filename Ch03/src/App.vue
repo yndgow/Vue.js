@@ -25,6 +25,8 @@
     나이 : {{ value2 }}
   </p>
   <h4>4&#41; 컴포넌트 생명주기</h4>
+  <NewComponent4 v-if="isShow"></NewComponent4>
+  <button @click="btnStatusToggle">컴포넌트 {{ status }}</button>
   <hr />
 </template>
 
@@ -51,10 +53,11 @@ import UComponent3 from './components/sub3/UComponent3.vue';
 import UComponent5 from './components/sub3/UComponent5.vue';
 import UComponent1 from './components/sub3/uComponent1.vue';
 import UComponent2 from './components/sub3/uComponent2.vue';
+import NewComponent4 from './components/sub4/NewComponent4.vue';
 
 export default {
   name: 'App',
-  components: { Component1, Component2, Parents, MyComponent1, MyComponent2, MyComponent3, MyComponent4, UComponent1, UComponent2, UComponent3, UComponent5 },
+  components: { Component1, Component2, Parents, MyComponent1, MyComponent2, MyComponent3, MyComponent4, UComponent1, UComponent2, UComponent3, UComponent5, NewComponent4 },
   data() {
     return {
       name: '홍길동',
@@ -62,12 +65,23 @@ export default {
       cities: ['서울', '대전', '대구', '부산', '광주', '제주'],
       value1: '',
       value2: 0,
+      status: '제거',
+      isShow: true,
     };
   },
   methods: {
     printValue: function (data) {
       this.value1 = data.name;
       this.value2 = data.age;
+    },
+    btnStatusToggle() {
+      if (this.isShow) {
+        this.isShow = false;
+        this.status = '생성';
+      } else {
+        this.isShow = true;
+        this.status = '제거';
+      }
     },
   },
 };
