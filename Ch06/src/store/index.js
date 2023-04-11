@@ -24,8 +24,8 @@ export const store = createStore({
     DECREMENT: function (state) {
       state.count--;
     },
-    INITCOUNT: function (state) {
-      state.count = 0;
+    INITCOUNT: function (state, payload) {
+      state.count = payload.count1;
     },
   },
   // actions : 비동기 방식으로 mutations 메서드를 실행하는 메서드 정의
@@ -37,8 +37,8 @@ export const store = createStore({
     decrement: function (context) {
       context.commit('DECREMENT');
     },
-    initCount: function (context) {
-      context.commit('INITCOUNT');
+    initCount: function (context, count1) {
+      context.commit('INITCOUNT', count1);
     },
   },
   // getters : 외부에 상태값을 전달하는 메서드 정의
