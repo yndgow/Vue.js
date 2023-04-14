@@ -30,7 +30,7 @@ const user = reactive({
 
 const loginProc = function () {
   axios
-    .post('http://localhost:8080/Voard/user/login', user)
+    .post('/Voard/user/login', user)
     .then((response) => {
       console.log(response);
       const token = response.data.accessToken;
@@ -38,6 +38,11 @@ const loginProc = function () {
       router.push('/jwt/loginSuccess');
     })
     .catch((error) => {
+      const statusCode = error.response.status;
+      console.log(statusCode);
+      if (statusCode == 403) {
+        alert('아이디와 비밀번호가 일치하지 않습니다.');
+      }
       console.log(error);
     });
 };
