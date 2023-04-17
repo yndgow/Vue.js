@@ -1,16 +1,23 @@
 <template>
   <h4>JWT 로그인 성공</h4>
-  <a href="#" @click.prevent="logout">로그아웃</a>
+  <p>
+    {{ user.nick }} 반갑습니다.<br />
+    <a href="#" @click.prevent="logout">로그아웃</a>
+  </p>
 </template>
 <script setup>
-import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
 
 const router = useRouter();
+const store = useStore();
+const user = computed(() => {
+  return store.getters.getUser;
+});
 
 const logout = () => {
   localStorage.removeItem('accessToken');
-  //axios.get({}).then().catch()
   router.push('/jwt/loginForm');
 };
 </script>

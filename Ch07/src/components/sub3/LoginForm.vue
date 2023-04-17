@@ -18,10 +18,11 @@
 </template>
 <script setup>
 import { reactive } from 'vue';
-import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 const router = useRouter();
+const store = useStore();
 
 const user = reactive({
   uid: '',
@@ -29,21 +30,16 @@ const user = reactive({
 });
 
 const loginProc = function () {
-  axios
-    .post('/Voard/user/login', user)
+  // 로그인 요청
+  store
+    .dispatch('login', user)
     .then((response) => {
-      console.log(response);
-      const token = response.data.accessToken;
-      localStorage.setItem('accessToken', token);
+      //로그인 성공 전환
       router.push('/jwt/loginSuccess');
     })
     .catch((error) => {
-      const statusCode = error.response.status;
-      console.log(statusCode);
-      if (statusCode == 403) {
-        alert('아이디와 비밀번호가 일치하지 않습니다.');
-      }
       console.log(error);
+      alert('로그인 실패!');
     });
 };
 </script>
