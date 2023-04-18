@@ -26,11 +26,22 @@
         >1</v-col
       >
     </v-row>
-
-    <v-row no-gutters>
-      <v-col cols="4" sm="12" lg="4" class="border text-center mt-4">sm1</v-col>
-      <v-col cols="4" sm="12" lg="4" class="border text-center mt-4">sm2</v-col>
-      <v-col cols="4" sm="12" lg="4" class="border text-center mt-4">sm3</v-col>
+  </v-container>
+  <h4>반응형 레이아웃</h4>
+  <v-container fluid>
+    <v-row no-gutters="">
+      <v-col cols="12" md="6" lg="3" class="border bg-purple text-center"
+        >column1</v-col
+      >
+      <v-col cols="12" md="6" lg="3" class="border bg-purple text-center"
+        >column1</v-col
+      >
+      <v-col cols="12" md="6" lg="3" class="border bg-purple text-center"
+        >column1</v-col
+      >
+      <v-col cols="12" md="6" lg="3" class="border bg-purple text-center"
+        >column1</v-col
+      >
     </v-row>
   </v-container>
 </template>
