@@ -26,12 +26,18 @@
 </template>
 <script setup>
 import axios from 'axios';
-import { computed, onBeforeMount, reactive, toRaw } from 'vue';
+import { onBeforeMount, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 const router = useRouter();
 const store = useStore();
 
+const user = reactive({
+  uid: '',
+  name: '',
+  hp: '',
+  age: 0,
+});
 const modifyUser = (user) => {
   axios
     .put(`/Ch09/user2/${user.uid}`, user)
@@ -44,11 +50,9 @@ const modifyUser = (user) => {
     });
 };
 
-const user = computed(() => {
-  return store.getters.getUser;
-});
-
 onBeforeMount(() => {
+  Object.assign(user, store.getters.getUser);
+
   const uid = localStorage.getItem('uid');
   console.log(uid);
   console.log(user);
@@ -57,8 +61,7 @@ onBeforeMount(() => {
       .get(`/Ch09/user2/${uid}`)
       .then((res) => {
         console.log('데이터 불러오기');
-        console.log(res.data);
-        user.value = res.data;
+        Object.assign(user, res.data);
       })
       .catch((err) => {
         console.log(err.message);

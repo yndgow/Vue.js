@@ -8,6 +8,9 @@ import User2List from '../components/user2/User2List.vue';
 import User2Register from '../components/user2/User2Register.vue';
 import User2Modify from '../components/user2/User2Modify.vue';
 import User3Main from '../components/user3/User3Main.vue';
+import User3List from '../components/user3/User3List.vue';
+import User3Register from '../components/user3/User3Register.vue';
+import User3Modify from '../components/user3/User3Modify.vue';
 import User4Main from '../components/user4/User4Main.vue';
 import User5Main from '../components/user5/User5Main.vue';
 import User6Main from '../components/user6/User6Main.vue';
@@ -35,10 +38,20 @@ const router = createRouter({
         { path: '', component: User2List },
         { path: 'list', component: User2List },
         { path: 'register', component: User2Register },
-        { path: 'modify', name: 'User2Modify', component: User2Modify, props: true },
+        { path: 'modify', name: 'User2Modify', component: User2Modify },
       ],
     },
-    { path: '/user3', name: 'User3Main', component: User3Main },
+    {
+      path: '/user3',
+      name: 'User3Main',
+      component: User3Main,
+      children: [
+        { path: '', component: User3List },
+        { path: 'list', component: User3List },
+        { path: 'register', component: User3Register },
+        { path: 'modify', name: 'User3Modify', component: User3Modify },
+      ],
+    },
     { path: '/user4', name: 'User4Main', component: User4Main },
     { path: '/user5', name: 'User5Main', component: User5Main },
     { path: '/user6', name: 'User6Main', component: User6Main },
