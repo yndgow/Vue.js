@@ -13,18 +13,18 @@ export const useUserStore = defineStore('UserStore', {
     setUser(user) {
       this.user = user;
     },
-    saveUser(user) {
-      axios.post('/Ch09/user3', user).then(() => {
+    async saveUser(user) {
+      await axios.post('/Ch09/user3', user).then(() => {
         alert('SAVE OK!!');
       });
     },
-    updateUser(user) {
-      axios.put(`/Ch09/user3/${user.uid}`, user).then((res) => {
+    async updateUser(user) {
+      await axios.put(`/Ch09/user3/${user.uid}`, user).then((res) => {
         alert('UPDATE OK!!');
       });
     },
-    deleteUser(uid) {
-      axios.delete(`/Ch09/user3/${uid}`).then((res) => {
+    async deleteUser(uid) {
+      await axios.delete(`/Ch09/user3/${uid}`).then((res) => {
         this.users = res.data;
         alert('DELETE OK!!');
       });
@@ -33,4 +33,5 @@ export const useUserStore = defineStore('UserStore', {
   getters: {
     getUser: (state) => state.user,
   },
+  persist: true,
 });
