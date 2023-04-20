@@ -1,12 +1,25 @@
 <template>
   <header>
     <div>
-      <input type="text" placeholder="할 일을 입력하세요." />
-      <button>등록</button>
+      <input type="text" placeholder="할 일을 입력하세요." v-model="newTodo" />
+      <button @click="btnAddTodo">등록</button>
     </div>
   </header>
 </template>
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+const newTodo = ref('');
+
+const emit = defineEmits(['addTodo']);
+
+const btnAddTodo = () => {
+  const inputValue = newTodo.value && newTodo.value.trim();
+  if (inputValue) {
+    emit('addTodo', inputValue);
+    newTodo.value = '';
+  }
+};
+</script>
 <style scoped>
 header {
   width: 100%;
