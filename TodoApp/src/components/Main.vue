@@ -1,7 +1,7 @@
 <template>
   <main>
     <ul>
-      <Item></Item>
+      <Item />
     </ul>
   </main>
 </template>
