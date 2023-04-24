@@ -14,7 +14,8 @@ export const useTodoStore = defineStore('TodoStore', {
         .post('/todo', data)
         .then((res) => {
           alert('INSERT OK!!');
-          this.todos.push(todo);
+
+          this.todos.push(res.data);
         })
         .catch((err) => {
           alert(err.message);
