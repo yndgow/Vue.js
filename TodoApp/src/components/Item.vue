@@ -1,8 +1,8 @@
 <template>
   <li v-for="(todo, index) in todos">
     <i class="fa-solid fa-check"></i>
-    {{ todo }}
-    <button @click="btnDelete(index)">삭제</button>
+    {{ todo.content }}
+    <button @click="btnDelete(index, todo.no)">삭제</button>
   </li>
 </template>
 <script setup>
@@ -14,8 +14,8 @@ const todoStore = useTodoStore();
 // todos 불러오기
 const todos = computed(() => todoStore.getTodos);
 
-const btnDelete = (index) => {
-  todoStore.removeTodo(index);
+const btnDelete = (index, no) => {
+  todoStore.removeTodo(index, no);
 };
 </script>
 <style scoped></style>

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import axios from 'axios';
 
 export const useTodoStore = defineStore('TodoStore', {
   state: () => ({
@@ -6,13 +7,51 @@ export const useTodoStore = defineStore('TodoStore', {
   }),
   actions: {
     addTodo(todo) {
-      this.todos.push(todo);
+      const data = {
+        content: todo,
+      };
+      axios
+        .post('/todo', data)
+        .then((res) => {
+          alert('INSERT OK!!');
+          this.todos.push(todo);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
     },
-    removeTodo(index) {
-      this.todos.splice(index, 1);
+    removeTodo(index, no) {
+      //alert('index : ' + index + 'no : ' + no);
+      axios
+        .delete('/todo/' + no)
+        .then((res) => {
+          alert('DELETE OK!!');
+          this.todos.splice(index, 1);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
     },
     clearTodos() {
-      this.todos = [];
+      axios
+        .delete('/todo')
+        .then((res) => {
+          alert('CLEAR OK!!');
+          this.todos = [];
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    },
+    setTodos() {
+      axios
+        .get('/todo')
+        .then((res) => {
+          this.todos = res.data;
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
     },
   },
   getters: {
@@ -20,5 +59,4 @@ export const useTodoStore = defineStore('TodoStore', {
       return this.todos;
     },
   },
-  persist: true,
 });

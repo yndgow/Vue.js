@@ -7,18 +7,19 @@
 import Header from './components/Header.vue';
 import Main from './components/Main.vue';
 import Footer from './components/Footer.vue';
-import { useStore } from 'vuex';
 import { useTodoStore } from './store/TodoStore';
+import { onBeforeMount } from 'vue';
 
 const todoStore = useTodoStore();
 
-const store = useStore();
 const addTodoHandler = (value) => {
-  //store.dispatch('addTodo', value);
   todoStore.addTodo(value);
 };
 const clearTodosHandler = () => {
   todoStore.clearTodos();
 };
+onBeforeMount(() => {
+  todoStore.setTodos();
+});
 </script>
 <style scoped></style>
