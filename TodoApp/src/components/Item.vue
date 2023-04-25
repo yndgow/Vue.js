@@ -1,7 +1,7 @@
 <template>
   <li v-for="(todo, index) in todos">
-    <i class="fa-solid fa-check"></i>
-    {{ todo.content }}
+    <i class="fa-solid fa-check" @click="btnCheck(todo.no, index)"></i>
+    {{ todo.content }} / {{ todo.status }}
     <button @click="btnDelete(index, todo.no)">삭제</button>
   </li>
 </template>
@@ -16,6 +16,10 @@ const todos = computed(() => todoStore.getTodos);
 
 const btnDelete = (index, no) => {
   todoStore.removeTodo(index, no);
+};
+
+const btnCheck = (no, index) => {
+  alert('no : ' + no + 'index' + index);
 };
 </script>
 <style scoped></style>
