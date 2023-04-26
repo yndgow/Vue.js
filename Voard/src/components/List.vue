@@ -3,6 +3,10 @@
     <v-main>
       <v-app-bar app>
         <v-app-bar-title>글목록</v-app-bar-title>
+        <p>
+          {{ user.nick }} 님 반갑습니다.
+          <v-btn @click="btnLogout">로그아웃</v-btn>
+        </p>
       </v-app-bar>
       <v-container>
         <v-sheet max-width="800" class="mx-auto mt-16">
@@ -72,9 +76,14 @@
   </v-app>
 </template>
 <script setup>
+import { useAppStore } from "@/store/app";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const userStore = useAppStore();
+
+const user = userStore.getUser;
 
 const btnWrite = () => {
   router.push("/write");
@@ -82,6 +91,11 @@ const btnWrite = () => {
 
 const moveView = () => {
   router.push("/view");
+};
+
+const btnLogout = () => {
+  localStorage.removeItem("accessToken");
+  router.push("/user/login");
 };
 </script>
 <style scoped></style>
