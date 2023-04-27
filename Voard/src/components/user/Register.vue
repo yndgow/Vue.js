@@ -199,7 +199,7 @@ const btnPrev = () => {
 };
 const btnRegister = () => {
   axios
-    .post("http://localhost:8080/Voard/user/register", user)
+    .post("http://13.125.215.198:8184/Voard/user/register", user)
     .then((res) => {
       console.log(res);
       route.push("/list");
@@ -214,7 +214,7 @@ const btnCheckUid = () => {
   isReadyUid.value = false;
   isLoading.value = true;
   axios
-    .get("http://localhost:8080/Voard/user/countUid", {
+    .get("http://13.125.215.198:8184/Voard/user/countUid", {
       params: { uid: user.uid },
     })
     .then((res) => {

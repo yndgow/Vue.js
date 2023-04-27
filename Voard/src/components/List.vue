@@ -10,7 +10,7 @@
       </v-app-bar>
       <v-container>
         <v-sheet max-width="800" class="mx-auto mt-16">
-          <v-table class="text-center" density="compact">
+          <v-table class="text-center" density="compact" hover="true">
             <thead>
               <tr>
                 <th class="text-center">번호</th>
@@ -21,40 +21,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td class="text-left" @click="moveView">제목입니다.</td>
-                <td>길동이</td>
-                <td>12</td>
-                <td>23-04-25</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>제목입니다.</td>
-                <td>길동이</td>
-                <td>12</td>
-                <td>23-04-25</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>제목입니다.</td>
-                <td>길동이</td>
-                <td>12</td>
-                <td>23-04-25</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>제목입니다.</td>
-                <td>길동이</td>
-                <td>12</td>
-                <td>23-04-25</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>제목입니다.</td>
-                <td>길동이</td>
-                <td>12</td>
-                <td>23-04-25</td>
+              <tr
+                v-for="(article, index) in state.data.articles"
+                :key="article.no"
+              >
+                <td>{{ state.data.pageStartNum - index }}</td>
+                <td class="text-left" @click="moveView">{{ article.title }}</td>
+                <td>{{ article.uid }}</td>
+                <td>{{ article.hit }}</td>
+                <td>{{ article.rdate.substring(2, 10) }}</td>
               </tr>
             </tbody>
           </v-table>
@@ -62,10 +37,11 @@
             <v-btn color="indigo" @click="btnWrite">글쓰기</v-btn>
           </v-sheet>
           <v-pagination
-            :length="100"
+            :length="state.data.lastPageNum"
             v-model="page"
-            total-visible="5"
+            total-visible="10"
             rounded="circle"
+            @click="pageHandler"
           ></v-pagination>
         </v-sheet>
       </v-container>
@@ -77,13 +53,19 @@
 </template>
 <script setup>
 import { useAppStore } from "@/store/app";
-import { computed } from "vue";
+import axios from "axios";
+import { ref } from "vue";
+import { reactive } from "vue";
+import { onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const userStore = useAppStore();
-
 const user = userStore.getUser;
+const state = reactive({
+  data: {},
+});
+const page = ref(1);
 
 const btnWrite = () => {
   router.push("/write");
@@ -97,5 +79,26 @@ const btnLogout = () => {
   localStorage.removeItem("accessToken");
   router.push("/user/login");
 };
+
+const pageHandler = () => {
+  // alert(page.value);
+  getArticles(page.value);
+};
+
+const getArticles = (pg) => {
+  const url = "http://13.125.215.198:8184/Voard/list?pg=" + pg;
+  axios
+    .get(url)
+    .then((res) => {
+      state.data = res.data;
+    })
+    .catch((err) => {
+      alert(err.message);
+    });
+};
+
+onBeforeMount(() => {
+  getArticles(1);
+});
 </script>
 <style scoped></style>
