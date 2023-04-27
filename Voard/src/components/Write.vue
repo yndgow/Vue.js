@@ -64,7 +64,7 @@ const article = reactive({
 });
 
 const btnWrite = () => {
-  const url = "http://13.125.215.198:8184/Voard/write";
+  const url = "/Voard/write";
   axios
     .post(url, article)
     .then((res) => {

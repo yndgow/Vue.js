@@ -86,7 +86,7 @@ const pageHandler = () => {
 };
 
 const getArticles = (pg) => {
-  const url = "http://13.125.215.198:8184/Voard/list?pg=" + pg;
+  const url = "/Voard/list?pg=" + pg;
   axios
     .get(url)
     .then((res) => {

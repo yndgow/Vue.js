@@ -16,7 +16,7 @@ onBeforeMount(() => {
   // 로그인 상태라면
   if (accessToken) {
     axios
-      .get("http://localhost:8080/Voard/user/auth", {
+      .get("/Voard/user/auth", {
         headers: { "X-AUTH-TOKEN": accessToken },
       })
       .then((res) => {
