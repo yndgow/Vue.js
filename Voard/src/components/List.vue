@@ -10,7 +10,7 @@
       </v-app-bar>
       <v-container>
         <v-sheet max-width="800" class="mx-auto mt-16">
-          <v-table class="text-center" density="compact" hover="true">
+          <v-table class="text-center" density="compact" hover>
             <thead>
               <tr>
                 <th class="text-center">번호</th>
@@ -26,7 +26,9 @@
                 :key="article.no"
               >
                 <td>{{ state.data.pageStartNum - index }}</td>
-                <td class="text-left" @click="moveView">{{ article.title }}</td>
+                <td class="text-left" @click="moveView(article.no)">
+                  {{ article.title }}
+                </td>
                 <td>{{ article.uid }}</td>
                 <td>{{ article.hit }}</td>
                 <td>{{ article.rdate.substring(2, 10) }}</td>
@@ -58,7 +60,7 @@ import { ref } from "vue";
 import { reactive } from "vue";
 import { onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
-
+import { computed } from "vue";
 const router = useRouter();
 const userStore = useAppStore();
 const user = userStore.getUser;
@@ -71,7 +73,7 @@ const btnWrite = () => {
   router.push("/write");
 };
 
-const moveView = () => {
+const moveView = (no) => {
   router.push("/view");
 };
 
@@ -81,20 +83,30 @@ const btnLogout = () => {
 };
 
 const pageHandler = () => {
-  // alert(page.value);
+  localStorage.setItem("pg", page.value);
+  userStore.setPage(page.value);
   getArticles(page.value);
 };
 
 const getArticles = (pg) => {
-  const url = "/Voard/list?pg=" + pg;
-  axios
-    .get(url)
-    .then((res) => {
-      state.data = res.data;
-    })
-    .catch((err) => {
-      alert(err.message);
-    });
+  const localPg = localStorage.getItem("pg");
+  const storePg = userStore.getPg;
+
+  if (storePg == 0) {
+    pg = localPg;
+    page.value = Number(localPg);
+  }
+  // const url = "http://localhost:8184/api/list?pg=" + pg;
+  // axios
+  //   .get(url)
+  //   .then((res) => {
+  //     state.data = res.data;
+  //   })
+  //   .catch((err) => {
+  //     alert(err.message);
+  //   });
+  userStore.setArticles(pg);
+  state.data = computed(() => userStore.getArticles);
 };
 
 onBeforeMount(() => {

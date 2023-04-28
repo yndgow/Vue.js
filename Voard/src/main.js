@@ -12,13 +12,14 @@ import { createApp } from "vue";
 
 // Plugins
 import { registerPlugins } from "@/plugins";
-// import { useAppStore } from "./store/app";
-//import router from './router'
+import axios from "axios";
 
 const app = createApp(App);
 
 registerPlugins(app);
 
-//app.use(router);
-// app.use(useAppStore);
 app.mount("#app");
+
+// axios 전역 설정
+//axios.defaults.baseURL = "http://localhost:8184"; // 개발용
+//axios.defaults.baseURL = "http://13.125.215.198:8184"; // 배포용

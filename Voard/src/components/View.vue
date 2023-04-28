@@ -28,7 +28,7 @@
                 <v-btn color="warning" class="mr-5" @click="btnModify"
                   >수정</v-btn
                 >
-                <v-btn color="error" @click="btnDelete">삭제</v-btn>
+                <v-btn color="error" @click="btnDelete()">삭제</v-btn>
               </v-col>
             </v-row>
           </v-sheet>
@@ -39,6 +39,9 @@
   </v-app>
 </template>
 <script setup>
+import axios from "axios";
+import { reactive } from "vue";
+import { onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -49,6 +52,29 @@ const btnList = () => {
 const btnModify = () => {
   router.push("/modify");
 };
-const btnDelete = () => {};
+const btnDelete = (no) => {
+  axios
+    .delete("http://localhost:8184/" + no)
+    .then((res) => {
+      console.log(res);
+      router.push("/list");
+    })
+    .catch((err) => {
+      alert(err.message);
+    });
+};
+
+// const article = reactive();
+
+// onBeforeMount(() => {
+//   axios
+//     .get("http://localhost:8184/" + no)
+//     .then((res) => {
+//       console.log(res);
+//     })
+//     .catch((err) => {
+//       alert(err.message);
+//     });
+// });
 </script>
 <style scoped></style>

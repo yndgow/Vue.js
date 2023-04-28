@@ -199,7 +199,7 @@ const btnPrev = () => {
 };
 const btnRegister = () => {
   axios
-    .post("/Voard/user/register", user)
+    .post("/api/user/register", user)
     .then((res) => {
       console.log(res);
       route.push("/list");
@@ -214,7 +214,7 @@ const btnCheckUid = () => {
   isReadyUid.value = false;
   isLoading.value = true;
   axios
-    .get("/Voard/user/countUid", {
+    .get("/api/user/countUid", {
       params: { uid: user.uid },
     })
     .then((res) => {

@@ -52,11 +52,12 @@
 <script setup>
 import { useRouter } from "vue-router";
 import axios from "axios";
-import { reactive } from "vue";
+import { onBeforeMount, reactive } from "vue";
 import { useAppStore } from "@/store/app";
 
 const route = useRouter();
 const userStore = useAppStore();
+const router = useRouter();
 
 const user = reactive({
   uid: "",
@@ -68,7 +69,7 @@ const btnRegister = () => {
 };
 const btnLogin = () => {
   axios
-    .post("/Voard/user/login", user)
+    .post("http://localhost:8184/api/user/login", user)
     .then((res) => {
       console.log(res.data);
       const accessToken = res.data.accessToken;
@@ -82,5 +83,27 @@ const btnLogin = () => {
       alert(err.message);
     });
 };
+
+onBeforeMount(() => {
+  const accessToken = localStorage.getItem("accessToken");
+  const userStore = useAppStore();
+
+  // 로그인 상태라면
+  if (accessToken) {
+    axios
+      .get("http://localhost:8184/api/user/auth", {
+        headers: { "X-AUTH-TOKEN": accessToken },
+      })
+      .then((res) => {
+        userStore.setUser(res.data.user);
+        router.push("/list");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  } else {
+    router.push("/user/login");
+  }
+});
 </script>
 <style scoped></style>

@@ -7,7 +7,6 @@ import { onBeforeMount } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useAppStore } from "./store/app";
-
 const router = useRouter();
 onBeforeMount(() => {
   const accessToken = localStorage.getItem("accessToken");
@@ -16,17 +15,15 @@ onBeforeMount(() => {
   // 로그인 상태라면
   if (accessToken) {
     axios
-      .get("/Voard/user/auth", {
+      .get("http://localhost:8184/api/user/auth", {
         headers: { "X-AUTH-TOKEN": accessToken },
       })
       .then((res) => {
-        //console.log(res);
         userStore.setUser(res.data.user);
       })
       .catch((err) => {
         alert(err.message);
       });
-    //router.push("/list");
   } else {
     router.push("/user/login");
   }
