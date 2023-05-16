@@ -9,12 +9,18 @@
           <v-form>
             <v-row>
               <v-col cols="12">
-                <v-text-field name="" label="제목" id=""></v-text-field>
+                <v-text-field
+                  name=""
+                  label="제목"
+                  id=""
+                  v-model="article.title"
+                ></v-text-field>
                 <v-textarea
                   label="내용"
                   rows="22"
                   no-resize
                   auto-grow=""
+                  v-model="article.content"
                 ></v-textarea>
               </v-col>
             </v-row>
@@ -39,11 +45,14 @@
   </v-app>
 </template>
 <script setup>
+import { useAppStore } from "@/store/app";
 import axios from "axios";
+
 import { reactive } from "vue";
 import { onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 
+const userStore = useAppStore();
 const router = useRouter();
 
 const btnList = () => {
@@ -64,17 +73,19 @@ const btnDelete = (no) => {
     });
 };
 
-// const article = reactive();
+const article = reactive({
+  title: "",
+  content: "",
+});
 
-// onBeforeMount(() => {
-//   axios
-//     .get("http://localhost:8184/" + no)
-//     .then((res) => {
-//       console.log(res);
-//     })
-//     .catch((err) => {
-//       alert(err.message);
-//     });
-// });
+onBeforeMount(() => {
+  console.log(userStore.getArticle);
+  if (userStore.getArticle == null) {
+    const no = localStorage.getItem("no");
+    const loadArticle = userStore.setArticle(no);
+    article.title = loadArticle.title;
+    article.content = loadArticle.content;
+  }
+});
 </script>
 <style scoped></style>

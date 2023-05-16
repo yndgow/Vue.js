@@ -6,6 +6,7 @@ export const useAppStore = defineStore("app", {
   state: () => ({
     user: {},
     articles: [],
+    article: { no: 0, title: "", content: "" },
     page: 0,
     no: 0,
   }),
@@ -30,6 +31,17 @@ export const useAppStore = defineStore("app", {
           alert(err.message);
         });
     },
+    setArticle(no) {
+      const url = `http://localhost:8184/api/${no}`;
+      axios
+        .get(url)
+        .then((res) => {
+          this.article = res.data;
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    },
   },
   getters: {
     getUser() {
@@ -43,6 +55,9 @@ export const useAppStore = defineStore("app", {
     },
     getArticles() {
       return this.articles;
+    },
+    getArticle() {
+      return this.article;
     },
   },
 });

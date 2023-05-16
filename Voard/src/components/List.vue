@@ -74,6 +74,8 @@ const btnWrite = () => {
 };
 
 const moveView = (no) => {
+  userStore.setArticle(no);
+  localStorage.setItem("no", no);
   router.push("/view");
 };
 
